@@ -30,6 +30,20 @@ class Player extends DataObject
         'new_signing' =>  'Boolean',
     ];
 
+    private static $has_one = [
+        //'club' => Club::class
+     ];
+
+     private static $summary_fields = [
+        'name' => 'Name',
+        'club' => 'Club',
+        'age' => 'Age',
+        'position' => 'Position',
+        'nationality' =>  'Nationality',
+    ];
+
+    // needed for namespaced models
+    private static $table_name = 'players';
 
     private static $api_access = true;
 
