@@ -99,7 +99,29 @@ class LoaderController extends Controller
         $count = 0;
 
         if($this->big_array) {
-            for($i=1; $i<sizeof($this->big_array)-1; $i++) {
+            for($i=1; $i<sizeof($this->big_array); $i++) {
+
+                // get the player name from array
+                $playerName = $this->big_array[$i][0];
+
+                // check if name already exists in database
+                $oldPlayer = Club::get()->filter([
+                    'name' => $playerName,
+                ])->first();    // need first() as get() will return a DataList not single object
+
+                // if not exists, then add it to database
+                if(!$oldPlayer) { // cannot use exists() as object can be null
+                    $player = new Player();
+                    $player->name = $playerName;
+
+                    // add the otehr player fields
+                    $player->age = intval($this->big_array[$i][2]);
+                    $player->position = $this->big_array[$i][3];
+                    $player->market_value = $this->big_array[$i][5];
+                    $player->nationality = $this->big_array[$i][11];
+                    
+                    $player->write();
+                }
 
                 // check if club name already exists
                 $clubName = $this->big_array[$i][1];
@@ -107,22 +129,20 @@ class LoaderController extends Controller
                     'name' => $clubName,
                 ])->first();    // need first() as get() will return a DataList not single object
 
-
-                $player = new Player();
-                $playerName = $this->big_array[$i][0];
-                $player->name = $playerName;
-                $player->write();
-
                 // if not exists, then add it to database
-                if(!$oldClub) {
+                if(!$oldClub) { // cannot use exists() as object can be null
                     $newClub = new Club();
+
                     $newClub->name = $clubName;
+                    $newClub->club_id = $this->big_array[$i][14];
+                    $newClub->big_club = $this->big_array[$i][15];
+
                     $newClub->write();
-                    $this->displayInfo($clubName);
-                    $newClub->players()->add($player);
+                    $this->displayInfo('<h3>'.$clubName.'</h3>');
+                    $newClub->players()->add($player);  // adds the relation
                 }
                 else {
-                    $oldClub->players()->add($player);
+                    $oldClub->players()->add($player);  // adds the relation
                 }
                 
                 $this->displayInfo($playerName);
