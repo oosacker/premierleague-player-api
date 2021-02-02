@@ -11,12 +11,12 @@ use SilverStripe\Control\Controller;
 
 class LoaderController extends Controller 
 {
-    private $mydata = [];
+    private $big_array = []; 
 
     private static $allowed_actions = 
     [
-        'Form',
-        'test',
+        'index' => 'ADMIN',
+        'Form' => 'ADMIN',
     ];
 
     private static $url_segment = 'loader';   // need this or else the form will be at /Form instead of /load/Form and will show 404 error
@@ -28,7 +28,7 @@ class LoaderController extends Controller
     }
 
 
-    public function Form() 
+    public function Form() : Form
     {
         $form = new Form(
             $this,
@@ -45,39 +45,60 @@ class LoaderController extends Controller
     }
 
 
-    public function doUpload($data, $form) 
+    public function doUpload($data, $form) : void
     {
-        
-        $file = $_FILES['CsvFile']['tmp_name'];
-        $handle = fopen($file, "r");
-        $big_array = []; 
-
-        if ($handle !== FALSE) {
-            $data = fgetcsv($handle);
-            while ($data !== FALSE) 
-            {		
-                $big_array = array_merge($big_array, $data);
-                $data = fgetcsv($handle);
-            }
-            fclose($handle);
+        if($this->fileLoader()) {
+            $this->displayInfo($this->big_array);
+            die('<br>DONE');
         } 
         else {
-            die('<br>fail');
+            die('<br>FAIL!!');
         }
-        
-        echo('<pre>');
-        var_dump($big_array);
-        echo('</pre>');
-        die('<br>hi');
     }
 
-    public function loadData()
+
+    protected function fileLoader() : bool
+    {
+        $file = $_FILES['CsvFile']['tmp_name'];
+        $handle = fopen($file, "r");
+        $index = 0;
+
+        if ($handle !== FALSE) {
+
+            $data = fgetcsv($handle);
+
+            while ($data !== FALSE) {	
+                $this->big_array[$index++] = $data;
+                $data = fgetcsv($handle);
+            }
+            
+            fclose($handle);
+            $this->displayInfo('FILE LOADED');
+            return true;
+        } 
+        else {
+            $this->displayInfo('COULD NOT LOAD FILE!!');
+            return false;
+
+        }
+    }
+
+
+    protected function loadToDatabase()
     {
         // https://docs.silverstripe.org/en/4/developer_guides/model/relations/
     }
 
-    public function test()
+
+    protected function displayInfo($data)
     {
-        die('test');
+        if(is_array($data)) {
+            echo('<pre>');
+            var_dump($data);
+            echo('</pre>');
+        }
+        else {
+            echo('<br>' . $data . '<br>');
+        }
     }
 }
