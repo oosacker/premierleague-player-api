@@ -15,15 +15,24 @@ class DeletePLayers extends BuildTask
     public function run($request)
     {
         $list = Player::get();
-
         $count = 0;
         foreach($list as $item) {
-            echo $item->delete();
-            echo($count . '<br>');
+            $item->delete();
+            //echo($count . '<br>');
             $count++;
         }
+        echo('Deleted ' . $count . ' players <br>');
 
-        echo('Deleted ' . $count . ' players');
+
+        $list = Club::get();
+        $count = 0;
+        foreach($list as $item) {
+            $item->delete();
+            //echo($count . '<br>');
+            $count++;
+        }
+        echo('Deleted ' . $count . ' clubs');
+        
         
     }
 

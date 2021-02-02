@@ -1,0 +1,4 @@
+SilverStripe\Control\Director:
+  rules:
+    loader: Natsuki\PremierLeagueApi\LoaderController
+    test: testcontroller
