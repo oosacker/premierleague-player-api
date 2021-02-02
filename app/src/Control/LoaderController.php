@@ -47,9 +47,15 @@ class LoaderController extends Controller
 
     public function doUpload($data, $form) : void
     {
-        if($this->fileLoader()) {
-            $this->displayInfo($this->big_array);
-            die('<br>DONE');
+        if($this->loadFile()) {
+
+            //$this->displayInfo($this->big_array);
+            
+            if($this->loadDatabase()) {
+                die('<br>DONE');
+            }
+
+            
         } 
         else {
             die('<br>FAIL!!');
@@ -57,7 +63,7 @@ class LoaderController extends Controller
     }
 
 
-    protected function fileLoader() : bool
+    protected function loadFile() : bool
     {
         $file = $_FILES['CsvFile']['tmp_name'];
         $handle = fopen($file, "r");
@@ -73,7 +79,7 @@ class LoaderController extends Controller
             }
             
             fclose($handle);
-            $this->displayInfo('FILE LOADED');
+            //$this->displayInfo('FILE LOADED');
             return true;
         } 
         else {
@@ -84,9 +90,50 @@ class LoaderController extends Controller
     }
 
 
-    protected function loadToDatabase()
+    protected function loadDatabase() : bool
     {
         // https://docs.silverstripe.org/en/4/developer_guides/model/relations/
+
+        //$this->displayInfo($this->big_array);
+
+        $count = 0;
+
+        if($this->big_array) {
+            for($i=1; $i<sizeof($this->big_array)-1; $i++) {
+
+                // check if club name already exists
+                $clubName = $this->big_array[$i][1];
+                $oldClub = Club::get()->filter([
+                    'name' => $clubName,
+                ])->first();    // need first() as get() will return a DataList not single object
+
+
+                $player = new Player();
+                $playerName = $this->big_array[$i][0];
+                $player->name = $playerName;
+                $player->write();
+
+                // if not exists, then add it to database
+                if(!$oldClub) {
+                    $newClub = new Club();
+                    $newClub->name = $clubName;
+                    $newClub->write();
+                    $this->displayInfo($clubName);
+                    $newClub->players()->add($player);
+                }
+                else {
+                    $oldClub->players()->add($player);
+                }
+                
+                $this->displayInfo($playerName);
+
+                
+            }
+            return true;
+        }
+        else {
+            die('NO data');      
+        }
     }
 
 

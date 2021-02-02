@@ -14,7 +14,7 @@ class PlayerAdmin extends ModelAdmin
 
     private static $model_importers = [
         //Player::class => PlayerDataLoader::class,
-        Player::class => CsvBulkLoader::class,
+        //Player::class => CsvBulkLoader::class,
      ];
 
     private static $menu_title = 'Players';

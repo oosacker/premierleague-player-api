@@ -13,7 +13,9 @@ class Club extends DataObject
 {
     
     private static $db = [
-        'club_name' => 'Varchar',
+        'name' => 'Varchar',
+        'club_id' =>  'Int',
+        'big_club' => 'Boolean',
     ];
 
     private static $has_many = [
@@ -26,7 +28,9 @@ class Club extends DataObject
     private static $api_access = true;
 
     private static $summary_fields = [
-        'club_name' => 'club_name',
+        'name' => 'Name',
+        'club_id' =>  'Club ID',
+        'big_club' => 'Big Club',
     ];
 
     public function canView($member = null) 

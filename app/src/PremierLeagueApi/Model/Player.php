@@ -12,6 +12,19 @@ class Player extends DataObject
     // Alexis Sanchez,Arsenal,28,LW,1,65,4329,12,17.10%,264,3,Chile,0,4,1,1,0
     private static $db = [
         'name' => 'Varchar',
+        'age' => 'Int',
+        'position' => 'Varchar',
+        'position_cat' => 'Int',
+        'market_value' => 'Int',
+        'page_views' => 'Int',
+        'fpl_value' => 'Int',
+        'fpl_sel' => 'Varchar',
+        'fpl_points' =>  'Int',
+        'region' =>  'Int',
+        'nationality' =>  'Varchar',
+        'new_foreign' =>  'Int',
+        'age_cat' =>  'Int',
+        'new_signing' =>  'Boolean',
     ];
 
     private static $has_one = [
@@ -20,7 +33,9 @@ class Player extends DataObject
 
      private static $summary_fields = [
         'name' => 'Name',
-        'Club.club_name' => 'Club',
+        'Club.name' => 'Club',
+        'age' => 'Age',
+        'position' => 'Position',
     ];
 
     // needed for namespaced models
