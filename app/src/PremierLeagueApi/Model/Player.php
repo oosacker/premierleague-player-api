@@ -38,6 +38,13 @@ class Player extends DataObject
         'position' => 'Position',
     ];
 
+    private static $searchable_fields = [
+        'name',
+        'age',
+        'position',
+        'nationality',
+    ];
+
     // needed for namespaced models
     private static $table_name = 'players';
 

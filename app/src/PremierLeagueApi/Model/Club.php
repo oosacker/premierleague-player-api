@@ -33,6 +33,10 @@ class Club extends DataObject
         'big_club' => 'Big Club',
     ];
 
+    private static $searchable_fields = [
+        'name',
+    ];
+
     public function canView($member = null) 
     {
         return true;
