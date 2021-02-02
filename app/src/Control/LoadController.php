@@ -16,15 +16,17 @@ class LoadController extends Controller
     private static $allowed_actions = 
     [
         'Form',
-        'test'
+        'test',
     ];
 
-    private static $url_segment = 'loader';
+    private static $url_segment = 'load';   // need this or else the form will be at /Form instead of /load/Form and will show 404 error
+
 
     public function index()
     {
         return [];
     }
+
 
     public function Form() 
     {
@@ -35,7 +37,7 @@ class LoadController extends Controller
                 new FileField('CsvFile', false)
             ),
             new FieldList(
-                new FormAction('doUpload', 'Upload')
+                new FormAction('doUpload', 'GO!')
             ),
             new RequiredFields()
         );
@@ -44,7 +46,10 @@ class LoadController extends Controller
 
     public function doUpload($data, $form) 
     {
-        return $this->redirectBack();
+        echo('<pre>');
+        var_dump($data);
+        echo('</pre>');
+        die('hi');
     }
 
     public function test()
