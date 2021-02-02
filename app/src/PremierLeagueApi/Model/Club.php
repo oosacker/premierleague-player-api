@@ -14,18 +14,20 @@ class Club extends DataObject
     
     private static $db = [
         'club_name' => 'Varchar',
-        'club_id' =>  'Int',
-        'big_club' => 'Boolean',
     ];
 
     private static $has_many = [
-        //'players' => Player::class
+        'players' => Player::class
      ];
 
     // needed for namespaced models
     private static $table_name = 'clubs';
 
     private static $api_access = true;
+
+    private static $summary_fields = [
+        'club_name' => 'club_name',
+    ];
 
     public function canView($member = null) 
     {

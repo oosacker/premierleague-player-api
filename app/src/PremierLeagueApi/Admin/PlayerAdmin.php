@@ -9,7 +9,7 @@ class PlayerAdmin extends ModelAdmin
 {
     private static $managed_models = [
         Player::class,
-        //Club::class,
+        Club::class,
     ];
 
     private static $model_importers = [
