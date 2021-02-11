@@ -50,6 +50,15 @@ class Player extends DataObject
 
     private static $api_access = true;
 
+    /*
+        ADMIN
+        CMS_ACCESS_AssetAdmin
+        CMS_ACCESS_CMSMain
+        CMS_ACCESS_ReportAdmin
+        SITETREE_REORGANISE
+        true
+        false
+    */
     public function canView($member = null) 
     {
         return true;
