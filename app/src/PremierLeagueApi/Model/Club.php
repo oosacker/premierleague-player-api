@@ -44,17 +44,17 @@ class Club extends DataObject
 
     public function canEdit($member = null) 
     {
-        return true;
+        return Permission::check('ADMIN', 'any', $member);
     }
 
     public function canDelete($member = null) 
     {
-        return true;
+        return Permission::check('ADMIN', 'any', $member);
     }
 
     public function canCreate($member = null, $context = []) 
     {
-        return true;
+        return Permission::check('ADMIN', 'any', $member);
     }
 
 }
