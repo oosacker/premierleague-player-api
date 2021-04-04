@@ -99,6 +99,10 @@ class LoaderController extends Controller
         $count = 0;
 
         if($this->big_array) {
+
+            //$this->displayInfo($this->big_array);
+
+            // element [0] contains the headings e.g. name, club, age...
             for($i=1; $i<sizeof($this->big_array); $i++) {
 
                 // get the player name from array
@@ -138,7 +142,9 @@ class LoaderController extends Controller
                     $newClub->big_club = $this->big_array[$i][15];
 
                     $newClub->write();
+
                     $this->displayInfo('<h3>'.$clubName.'</h3>');
+                    
                     $newClub->players()->add($player);  // adds the relation
                 }
                 else {

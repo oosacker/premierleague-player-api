@@ -4,10 +4,6 @@ namespace Natsuki\PremierLeagueApi;
 
 use SilverStripe\Dev\CsvBulkLoader;
 
-/**
- * Work in progress - relations are not working
- */
-
 class PlayerDataLoader extends CsvBulkLoader 
 {
    public $columnMap = [
@@ -15,14 +11,11 @@ class PlayerDataLoader extends CsvBulkLoader
       'club' => '->importClubInfo',
    ];
 
-
    public static function importClubInfo(&$obj, $val, $record) 
    {
-
       $obj->write(); // write first in order to generate its ID for use in the image relation
       $image = new Club();
       $image->write();
-      
    }
 
 }

@@ -1,4 +1,4 @@
 SilverStripe\Control\Director:
   rules:
-    loader: Natsuki\PremierLeagueApi\LoaderController
+    loader: Natsuki\PremierLeagueApi\LoaderController # only allow admins to access index
     test: testcontroller
